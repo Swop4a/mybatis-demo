@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="epam.mybatis.demo.mappers.TeacherMapper">
+
+	<resultMap id="TeacherResultMap" type="epam.mybatis.demo.model.Teacher" autoMapping="true">
+		<id property="id" column="teacher_id"/>
+		<result property="name" column="name"/>
+		<result property="moniker" column="moniker"/>
+		<collection property="groups" ofType="epam.mybatis.demo.model.Group" autoMapping="true">
+			<id property="id" column="group_id"/>
+			<result property="name" column="name"/>
+			<result property="faculty" column="faculty_id"/>
+		</collection>
+	</resultMap>
+
+	<select id="get" resultMap="TeacherResultMap">
+		<include refid="teachers"/>
+		WHERE t.teacher_id = #{id}
+	</select>
+
+	<select id="findAll" resultMap="TeacherResultMap">
+		<include refid="teachers"/>
+	</select>
+
+	<sql id="teachers">
+		SELECT
+			t.teacher_id,
+			t.name,
+			t.moniker,
+			g.group_id,
+			g.name,
+			g.faculty_id
+		FROM teacher t
+			LEFT JOIN groups_teacher gt ON gt.teacher_id = t.teacher_id
+			LEFT JOIN groups g ON g.group_id = gt.group_id
+	</sql>
+</mapper>

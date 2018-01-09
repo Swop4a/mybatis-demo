@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="epam.mybatis.demo.mappers.GroupMapper">
+
+	<resultMap id="GroupResultMap" type="epam.mybatis.demo.model.Group" autoMapping="true">
+		<id property="id" column="group_id"/>
+		<result property="name" column="name"/>
+		<result property="faculty" column="faculty_id"/>
+		<collection property="students" ofType="epam.mybatis.demo.model.Student" autoMapping="true">
+			<id property="id" column="human_id"/>
+			<result property="firstName" column="first_name"/>
+			<result property="secondName" column="second_name"/>
+			<result property="address" column="address"/>
+			<result property="phoneNumber" column="phone_number"/>
+			<result property="email" column="email"/>
+			<result property="studentCardNumber" column="student_card_number"/>
+			<result property="courseNumber" column="course_number"/>
+		</collection>
+		<collection property="teachers" ofType="epam.mybatis.demo.model.Teacher" autoMapping="true">
+			<id property="id" column="teacher_id"/>
+			<result property="name" column="name"/>
+			<result property="moniker" column="moniker"/>
+		</collection>
+	</resultMap>
+
+	<select id="getGroup" resultMap="GroupResultMap">
+		<include refid="groups"/>
+		WHERE g.group_id = #{groupId}
+	</select>
+
+	<select id="findAll" resultMap="GroupResultMap">
+		<include refid="groups"/>
+	</select>
+
+	<sql id="groups">
+		SELECT
+			g.group_id,
+			g.name,
+			g.faculty_id,
+			h.human_id,
+			h.first_name,
+			h.second_name,
+			h.address,
+			h.phone_number,
+			h.email,
+			h.student_card_number,
+			h.course_number,
+			t.teacher_id,
+			t.name,
+			t.moniker
+		FROM groups g
+			LEFT JOIN human h ON h.group_id = g.group_id
+			LEFT JOIN groups_teacher gt ON gt.group_id = g.group_id
+			LEFT JOIN teacher t ON t.teacher_id = gt.teacher_id
+	</sql>
+</mapper>

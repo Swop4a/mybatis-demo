@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="epam.mybatis.demo.mappers.HumanMapper">
+
+	<resultMap id="HumanResultMap" type="epam.mybatis.demo.model.Human" autoMapping="true">
+		<id property="id" column="human_id"/>
+		<result property="firstName" column="first_name"/>
+		<result property="secondName" column="second_name"/>
+		<result property="address" column="address"/>
+		<result property="phoneNumber" column="phone_number"/>
+		<result property="email" column="email"/>
+	</resultMap>
+
+	<resultMap id="StudentResultMap" type="epam.mybatis.demo.model.Student" autoMapping="true" extends="HumanResultMap">
+		<association property="group"
+		  column="group_id"
+		  javaType="epam.mybatis.demo.model.Group"
+		  select="epam.mybatis.demo.mappers.GroupMapper.getGroup"
+		  fetchType="eager"/>
+	</resultMap>
+
+	<select id="getHuman" resultType="epam.mybatis.demo.model.Human">
+		SELECT
+			human_id AS id,
+			first_name,
+			second_name,
+			address,
+			phone_number,
+			email
+		FROM human
+		WHERE human_id = #{id}
+	</select>
+
+	<select id="findAllHumans" resultMap="HumanResultMap">
+		SELECT *
+		FROM human
+	</select>
+
+	<insert id="insertHuman" useGeneratedKeys="true" keyProperty="person.id" keyColumn="human_id">
+		INSERT INTO human (first_name, second_name, address, phone_number, email)
+		VALUES (#{person.firstName}, #{person.secondName}, #{person.address}, #{person.phoneNumber}, #{person.email})
+	</insert>
+
+	<update id="updateHuman">
+		UPDATE human
+		SET first_name   = #{to.firstName},
+			second_name  = #{to.secondName},
+			address      = #{to.address},
+			phone_number = #{to.phoneNumber},
+			email        = #{to.email}
+		WHERE human_id = #{to.id}
+	</update>
+
+	<select id="getStudent" resultMap="StudentResultMap">
+		SELECT *
+		FROM human
+		WHERE human_id = #{id}
+	</select>
+</mapper>

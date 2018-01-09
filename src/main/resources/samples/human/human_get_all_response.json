@@ -1,0 +1,42 @@
+[
+	{
+		"id": 1,
+		"firstName": "Jon",
+		"secondName": "Snow",
+		"address": "Vesteros",
+		"phoneNumber": 8945231985,
+		"email": "uknownothingjs@martin.com"
+	},
+	{
+		"id": 2,
+		"firstName": "Luke",
+		"secondName": "Skywalker",
+		"address": "Tatuin",
+		"phoneNumber": 89421232234,
+		"email": "lule@starwars.com"
+	},
+	{
+		"id": 3,
+		"firstName": "Hannibal",
+		"secondName": "Lecter",
+		"address": "USA",
+		"phoneNumber": 89123452123,
+		"email": "thesilenceofthelambs@human.com"
+	},
+	{
+		"id": 4,
+		"firstName": "John",
+		"secondName": "Constantine",
+		"address": "Liverpool",
+		"phoneNumber": 89243231912,
+		"email": "constantine@john.com"
+	},
+	{
+		"id": 5,
+		"firstName": "Gendalf",
+		"secondName": "White",
+		"address": "Middle Earth",
+		"phoneNumber": 89231234910,
+		"email": "hobbits@thebest.com"
+	}
+]
