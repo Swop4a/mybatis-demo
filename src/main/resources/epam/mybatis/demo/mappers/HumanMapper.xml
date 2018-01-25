@@ -11,7 +11,10 @@
 		<result property="email" column="email"/>
 	</resultMap>
 
-	<resultMap id="StudentResultMap" type="epam.mybatis.demo.model.Student" autoMapping="true" extends="HumanResultMap">
+	<resultMap id="StudentResultMap" type="epam.mybatis.demo.model.Student" autoMapping="true"
+	  extends="HumanResultMap">
+		<result property="studentCardNumber" column="student_card_number"/>
+		<result property="courseNumber" column="course_number"/>
 		<association property="group"
 		  column="group_id"
 		  javaType="epam.mybatis.demo.model.Group"
@@ -19,21 +22,28 @@
 		  fetchType="eager"/>
 	</resultMap>
 
-	<select id="getHuman" resultType="epam.mybatis.demo.model.Human">
-		SELECT
-			human_id AS id,
-			first_name,
-			second_name,
-			address,
-			phone_number,
-			email
-		FROM human
-		WHERE human_id = #{id}
+	<resultMap id="GroupResultMap" type="Group" autoMapping="true">
+		<id property="id" column="group_id"/>
+		<result property="name" column="name"/>
+		<result property="faculty" column="faculty_id"/>
+		<collection property="teachers" resultMap="TeacherResultMap" autoMapping="true"/>
+	</resultMap>
+
+
+	<resultMap id="TeacherResultMap" type="Teacher" autoMapping="true">
+		<id property="id" column="teacher_id"/>
+		<result property="name" column="name"/>
+		<result property="moniker" column="moniker"/>
+		<collection property="groups" resultMap="GroupResultMap"/>
+	</resultMap>
+
+	<select id="findAllStudents" resultMap="StudentResultMap">
+		<include refid="selectStudents"/>
 	</select>
 
-	<select id="findAllHumans" resultMap="HumanResultMap">
-		SELECT *
-		FROM human
+	<select id="sum" resultType="java.lang.Integer">
+		SELECT SUM(human_id) FROM human
+		WHERE human_id = #{id}
 	</select>
 
 	<insert id="insertHuman" useGeneratedKeys="true" keyProperty="person.id" keyColumn="human_id">
@@ -52,8 +62,20 @@
 	</update>
 
 	<select id="getStudent" resultMap="StudentResultMap">
-		SELECT *
-		FROM human
+		<include refid="selectStudents"/>
 		WHERE human_id = #{id}
 	</select>
+
+	<select id="findAllHumans" resultMap="HumanResultMap">
+		SELECT *
+		FROM human
+	</select>
+
+	<sql id="selectStudents">
+		SELECT
+			h.human_id, h.first_name, h.second_name, h.address, h.phone_number,
+			h.email, s.student_card_number, s.course_number
+		FROM student s
+			LEFT JOIN human h ON h.human_id = s.human_id
+	</sql>
 </mapper>

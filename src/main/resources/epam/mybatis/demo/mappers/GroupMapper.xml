@@ -6,21 +6,25 @@
 		<id property="id" column="group_id"/>
 		<result property="name" column="name"/>
 		<result property="faculty" column="faculty_id"/>
-		<collection property="students" ofType="epam.mybatis.demo.model.Student" autoMapping="true">
-			<id property="id" column="human_id"/>
-			<result property="firstName" column="first_name"/>
-			<result property="secondName" column="second_name"/>
-			<result property="address" column="address"/>
-			<result property="phoneNumber" column="phone_number"/>
-			<result property="email" column="email"/>
-			<result property="studentCardNumber" column="student_card_number"/>
-			<result property="courseNumber" column="course_number"/>
-		</collection>
-		<collection property="teachers" ofType="epam.mybatis.demo.model.Teacher" autoMapping="true">
-			<id property="id" column="teacher_id"/>
-			<result property="name" column="name"/>
-			<result property="moniker" column="moniker"/>
-		</collection>
+		<collection property="students" resultMap="StudentResultMap" autoMapping="true"/>
+		<collection property="teachers" resultMap="TeacherResultMap" autoMapping="true"/>
+	</resultMap>
+
+	<resultMap id="StudentResultMap" type="epam.mybatis.demo.model.Student">
+		<id property="id" column="human_id"/>
+		<result property="firstName" column="first_name"/>
+		<result property="secondName" column="second_name"/>
+		<result property="address" column="address"/>
+		<result property="phoneNumber" column="phone_number"/>
+		<result property="email" column="email"/>
+		<result property="studentCardNumber" column="student_card_number"/>
+		<result property="courseNumber" column="course_number"/>
+	</resultMap>
+
+	<resultMap id="TeacherResultMap" type="Teacher">
+		<id property="id" column="teacher_id"/>
+		<result property="name" column="name"/>
+		<result property="moniker" column="moniker"/>
 	</resultMap>
 
 	<select id="getGroup" resultMap="GroupResultMap">
@@ -43,13 +47,14 @@
 			h.address,
 			h.phone_number,
 			h.email,
-			h.student_card_number,
-			h.course_number,
+			s.student_card_number,
+			s.course_number,
 			t.teacher_id,
 			t.name,
 			t.moniker
 		FROM groups g
-			LEFT JOIN human h ON h.group_id = g.group_id
+			LEFT JOIN student s ON s.group_id = g.group_id
+			LEFT JOIN human h ON h.human_id = s.human_id
 			LEFT JOIN groups_teacher gt ON gt.group_id = g.group_id
 			LEFT JOIN teacher t ON t.teacher_id = gt.teacher_id
 	</sql>

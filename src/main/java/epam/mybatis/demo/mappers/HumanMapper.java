@@ -7,6 +7,8 @@ import epam.mybatis.demo.model.Student;
 
 public interface HumanMapper {
 
+	Integer sum(@Param("id") Long id);
+
 	Human getHuman(@Param("id") Long id);
 
 	List<Human> findAllHumans();
@@ -17,5 +19,5 @@ public interface HumanMapper {
 
 	Student getStudent(@Param("id") Long id);
 
-	List<Student> finaAllStudents();
+	List<Student> findAllStudents();
 }

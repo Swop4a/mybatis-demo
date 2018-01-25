@@ -22,6 +22,14 @@
 		<include refid="teachers"/>
 	</select>
 
+	<select id="findTeachersByNameWithMonikerLike" resultMap="TeacherResultMap">
+		<include refid="teachers"/>
+		WHERE name = ${name}
+		<if test="moniker != null">
+			AND moniker like #{moniker}
+		</if>
+	</select>
+
 	<sql id="teachers">
 		SELECT
 			t.teacher_id,

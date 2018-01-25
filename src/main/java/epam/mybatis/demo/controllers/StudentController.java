@@ -23,6 +23,6 @@ public class StudentController {
 
 	@GetMapping("getAllStudents")
 	public List<Student> getAllStudents() {
-		return humanMapper.finaAllStudents();
+		return humanMapper.findAllStudents();
 	}
 }

@@ -2,11 +2,22 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
-		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="cacheEnabled" value="true"/>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="multipleResultSetsEnabled" value="true"/>
+		<setting name="useGeneratedKeys" value="false"/>
+		<setting name="autoMappingBehavior" value="PARTIAL"/>
+		<setting name="defaultFetchSize" value="100"/>
+		<setting name="safeRowBoundsEnabled" value="false"/>
+		<setting name="mapUnderscoreToCamelCase" value="false"/>
+		<setting name="localCacheScope" value="SESSION"/>
+		<setting name="jdbcTypeForNull" value="OTHER"/>
 	</settings>
 
 	<typeAliases>
 		<typeAlias alias="Faculty" type="epam.mybatis.demo.model.Faculty"/>
+		<typeAlias alias="Teacher" type="epam.mybatis.demo.model.Teacher"/>
+		<typeAlias alias="Group" type="epam.mybatis.demo.model.Group"/>
 	</typeAliases>
 
 	<typeHandlers>

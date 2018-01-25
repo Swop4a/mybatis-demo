@@ -1,12 +1,12 @@
 server:
-  port: 8083
+  port: 8084
   context-path: /
 logging:
   level: trace
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:testdb
     username: sa
     password:
     platform: h2
@@ -14,5 +14,3 @@ spring:
     console:
       enabled: true
       path: /console
-      settings:
-        web-allow-others: true
